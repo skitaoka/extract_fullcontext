@@ -31,8 +31,9 @@ jobs:
         run: |
           dir
           7z x -tgzip -so open_jtalk-1.11.tar.gz | 7z x -si -ttar
-          dir
+          dir open_jtalk-1.11
 
       - name: build
         run: |
           msbuild -version
+          msbuild extract_fullcontext.sln /t:build /p:Configuration=Release;Platform="x64"
