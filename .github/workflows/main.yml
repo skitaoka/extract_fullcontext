@@ -33,4 +33,4 @@ jobs:
           dir open_jtalk-1.11
 
       - name: build
-        run: msbuild extract_fullcontext.sln /t:build /p:Configuration=Release;Platform="x64"
+        run: msbuild extract_fullcontext.sln /t:build /p:Configuration=Release

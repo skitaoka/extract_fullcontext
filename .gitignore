@@ -38,6 +38,7 @@ x64
 Release
 Debug
 
+*.tar
 *.gz
 *.user
 *.log
