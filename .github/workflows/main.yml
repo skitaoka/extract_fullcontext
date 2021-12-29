@@ -17,10 +17,10 @@ jobs:
         uses: actions/checkout@v2
 
       - name: download-openjtalk
-        run: Invoke-Webrequest http://downloads.sourceforge.net/open-jtalk/open_jtalk-1.11.tar.gz
+        run: Invoke-Webrequest http://downloads.sourceforge.net/open-jtalk/open_jtalk-1.11.tar.gz -OutFile open_jtalk-1.11.tar.gz
 
       - name: extract
-        run: 7z xvf open_jtalk-1.11.tar.gz
+        run: 7z open_jtalk-1.11.tar.gz
 
       - name: setup-msbuild
         uses: microsoft/setup-msbuild@v1.1
