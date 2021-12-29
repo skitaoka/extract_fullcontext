@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: download-openjtalk
+        run: wget http://downloads.sourceforge.net/open-jtalk/open_jtalk-1.11.tar.gz
+
+      - name: tar
+        run: tar xvf open-jtalk/open_jtalk-1.11.tar.gz
+
+      - name: setup-msbuild
+        uses: microsoft/setup-msbuild@v1.1
+        with:
+          msbuild-architecture: x86
