@@ -15,8 +15,6 @@ jobs:
     steps:
       - name: setup-msbuild
         uses: microsoft/setup-msbuild@v1.1
-        with:
-          msbuild-architecture: x86
 
       - name: checkout
         uses: actions/checkout@v2
