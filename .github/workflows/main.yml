@@ -27,7 +27,8 @@ jobs:
 
       - name: extract
         run: |
-          7z x -tgzip -so open_jtalk-1.11.tar.gz | 7z x -si -ttar
+          7z x open_jtalk-1.11.tar.gz
+          7z x open_jtalk-1.11.tar
           dir
           dir open_jtalk-1.11
 
