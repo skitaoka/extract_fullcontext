@@ -27,14 +27,9 @@ jobs:
       - name: extract
         run: 7z x -tgzip -so open_jtalk-1.11.tar.gz | 7z x -si -ttar
 
-      - name: log2
-        run: dir
-
       - name: build
         run: |
           pushd open_jtalk-1.11
+          dir
           nmake -f Makefile.mak
           popd
-
-      - name: log2
-        run: dir
