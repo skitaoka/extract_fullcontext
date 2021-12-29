@@ -22,18 +22,10 @@ jobs:
         uses: actions/checkout@v2
 
       - name: download-openjtalk
-        run: |
-          dir
-          Invoke-Webrequest -Uri https://jaist.dl.sourceforge.net/project/open-jtalk/Open%20JTalk/open_jtalk-1.11/open_jtalk-1.11.tar.gz -OutFile open_jtalk-1.11.tar.gz
-          dir
+        run: Invoke-Webrequest -Uri https://jaist.dl.sourceforge.net/project/open-jtalk/Open%20JTalk/open_jtalk-1.11/open_jtalk-1.11.tar.gz -OutFile open_jtalk-1.11.tar.gz && dir
 
       - name: extract
-        run: |
-          dir
-          7z x -tgzip -so open_jtalk-1.11.tar.gz | 7z x -si -ttar
-          dir open_jtalk-1.11
+        run: 7z x -tgzip -so open_jtalk-1.11.tar.gz | 7z x -si -ttar && dir open_jtalk-1.11
 
       - name: build
-        run: |
-          msbuild -version
-          msbuild extract_fullcontext.sln /t:build /p:Configuration=Release;Platform="x64"
+        run: msbuild extract_fullcontext.sln /t:build /p:Configuration=Release;Platform="x64"
