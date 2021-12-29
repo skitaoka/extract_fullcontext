@@ -30,3 +30,14 @@
 *.exe
 *.out
 *.app
+
+.vs
+
+open_jtalk-1.11
+x64
+Release
+Debug
+
+*.gz
+*.user
+*.log
