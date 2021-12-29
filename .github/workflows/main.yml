@@ -20,7 +20,7 @@ jobs:
         run: Invoke-Webrequest http://downloads.sourceforge.net/open-jtalk/open_jtalk-1.11.tar.gz -OutFile open_jtalk-1.11.tar.gz
 
       - name: extract
-        run: 7z open_jtalk-1.11.tar.gz
+        run: 7z x -tgzip -so open_jtalk-1.11.tar.gz | 7z x -si -ttar
 
       - name: setup-msbuild
         uses: microsoft/setup-msbuild@v1.1
