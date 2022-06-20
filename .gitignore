@@ -34,6 +34,7 @@
 .vs
 
 open_jtalk-1.11
+open_jtalk_dic_shift_jis-1.11
 x64
 Release
 Debug
@@ -42,3 +43,4 @@ Debug
 *.gz
 *.user
 *.log
+*.dic

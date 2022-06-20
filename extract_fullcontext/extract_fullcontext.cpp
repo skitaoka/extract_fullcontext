@@ -10,13 +10,24 @@
 #include "njd2jpcommon.h"
 #include "text2mecab.h"
 
+#include <memory>
 
 namespace OpenJTalk
 {
-    ExtractFullcontext::ExtractFullcontext(char const* dn_mecab)
+    ExtractFullcontext::ExtractFullcontext(char const* dn_mecab, char const* user_dic)
+        : ready_(true)
     {
         Mecab_initialize(&mecab_);
-        Mecab_load(&mecab_, dn_mecab);
+        if (user_dic) {
+            if (this->load(dn_mecab, user_dic)) {
+                ready_ = false;
+            }
+        }
+        else {
+            if (!Mecab_load(&mecab_, dn_mecab)) {
+                ready_ = false;
+            }
+        }
         NJD_initialize(&njd_);
         JPCommon_initialize(&jpcommon_);
     }
@@ -28,12 +39,43 @@ namespace OpenJTalk
         JPCommon_clear(&jpcommon_);
     }
 
+    int ExtractFullcontext::load(char const* dn_mecab, char const* user_dic) const {
+        Mecab_clear(&mecab_);
+
+        std::string dicdir(dn_mecab);
+        std::string userdic(user_dic);
+        // char* argv[] = { "mecab", "-d", dicdir.data(), "-u", userdic.data() }; // C++17
+        char* argv[] = { "mecab", "-d", &dicdir[0], "-u", &userdic[0] };
+        int argc = std::size(argv);
+
+        std::unique_ptr<MeCab::Model> model(MeCab::createModel(argc, argv));
+        if (!model) {
+            return 1;
+        }
+
+        std::unique_ptr<MeCab::Tagger> tagger(model->createTagger());
+        if (!tagger) {
+            return 2;
+        }
+
+        std::unique_ptr<MeCab::Lattice> lattice(model->createLattice());
+        if (!lattice) {
+            return 3;
+        }
+
+        mecab_.model = model.release();
+        mecab_.tagger = tagger.release();
+        mecab_.lattice = lattice.release();
+
+        return 0;
+    }
+
     std::vector<std::string> ExtractFullcontext::operator () (char const* text) const
     {
-        char buff[8192];
+        std::string buff(text);
 
-        text2mecab(buff, text);
-        Mecab_analysis(&mecab_, buff);
+        text2mecab(&buff[0], text);
+        Mecab_analysis(&mecab_, buff.c_str());
         mecab2njd(&njd_, Mecab_get_feature(&mecab_), Mecab_get_size(&mecab_));
         njd_set_pronunciation(&njd_);
         njd_set_digit(&njd_);
