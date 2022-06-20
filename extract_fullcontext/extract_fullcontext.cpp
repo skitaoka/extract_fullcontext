@@ -76,6 +76,9 @@ namespace OpenJTalk
 
         text2mecab(&buff[0], text);
         Mecab_analysis(&mecab_, buff.c_str());
+#if !defined(NDEBUG)
+        Mecab_print(&mecab_);
+#endif
         mecab2njd(&njd_, Mecab_get_feature(&mecab_), Mecab_get_size(&mecab_));
         njd_set_pronunciation(&njd_);
         njd_set_digit(&njd_);
